@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibraryManagement.Application\LibraryManagement.Application.csproj" />
+    <ProjectReference Include="..\LibraryManagement.Infrastructure\LibraryManagement.Infrastructure.csproj" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -46,6 +47,10 @@
 		<Protobuf Include="..\LibraryManagement.Contract\Proto\author.proto" GrpcServices="Server" />
 		<Protobuf Include="..\LibraryManagement.Contract\Proto\category.proto" GrpcServices="Server" />
 		<Protobuf Include="..\LibraryManagement.Contract\Proto\borrowing.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="LibraryManagement.Integration.Tests" />
 	</ItemGroup>
 	
 </Project>

@@ -24,7 +24,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibraryManagement.Application\LibraryManagement.Application.csproj" />
-    <ProjectReference Include="..\LibraryManagement.Integration.Tests\LibraryManagement.Integration.Tests.csproj" />
+    <ProjectReference Include="..\LibraryManagement.Domain\LibraryManagement.Domain.csproj" />
+    <ProjectReference Include="..\LibraryManagement.Shared\LibraryManagement.Shared.csproj" />
   </ItemGroup>
 
 </Project>

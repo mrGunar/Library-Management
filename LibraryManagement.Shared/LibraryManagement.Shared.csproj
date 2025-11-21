@@ -22,8 +22,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\LibraryManagement.Integration.Tests\LibraryManagement.Integration.Tests.csproj" />
-  </ItemGroup>
-
 </Project>

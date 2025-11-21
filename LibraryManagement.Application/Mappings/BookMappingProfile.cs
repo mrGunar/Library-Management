@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using LibraryManagement.Application.DTOs;
 using LibraryManagement.Domain.Entities;
-using Linq;
 
 namespace LibraryManagement.Application.Mappings
 {
