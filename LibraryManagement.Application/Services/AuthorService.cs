@@ -80,7 +80,9 @@ namespace LibraryManagement.Application.Services
                 ?? throw new NotFoundException(nameof(Author), command.AuthorId);
 
             // TODO: Update the profile
+            author.FirstName = command.FirstName;
             author.LastName = command.LastName;
+            author.Biography = command.Biography;
 
             await _authorRepository.UpdateAsync(author, cancellationToken);
             return _mapper.Map<AuthorDto>(author);
