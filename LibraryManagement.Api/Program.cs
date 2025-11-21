@@ -44,7 +44,7 @@ container.AddApplicationLayer();
 container.AddInfrastructureLayer(options);
 
 // Seed the db
-container.SeedDatabaseAsync();
+//container.SeedDatabaseAsync();
 
 container.Register<AuthorGrpcService>(Lifestyle.Scoped);
 container.Register<BookGrpcService>(Lifestyle.Scoped);
@@ -73,3 +73,4 @@ container.Verify();
 app.MapGet("/", () => "Hello World!");
 
 app.Run();
+public partial class Program { }
