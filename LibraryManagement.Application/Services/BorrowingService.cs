@@ -30,11 +30,11 @@ namespace LibraryManagement.Application.Services
 
         public BorrowingService(
             IBorrowingRepository borrowingRepository,
-            IBookRepository bookRepository, 
+            IBookRepository bookRepository,
             IValidator<BorrowBookCommand> borrowValidator,
             IValidator<ReturnBookCommand> returnValidator,
             IMapper mapper,
-            ILogger<BorrowingService> logger)   
+            ILogger<BorrowingService> logger)
         {
             _borrowingRepository = borrowingRepository;
             _bookRepository = bookRepository;

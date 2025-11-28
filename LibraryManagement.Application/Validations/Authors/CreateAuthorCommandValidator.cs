@@ -6,7 +6,7 @@ namespace LibraryManagement.Application.Validations.Authors
 {
     public class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorCommand>
     {
-        public CreateAuthorCommandValidator() 
+        public CreateAuthorCommandValidator()
         {
             RuleFor(x => x.FirstName)
                 .NotEmpty()

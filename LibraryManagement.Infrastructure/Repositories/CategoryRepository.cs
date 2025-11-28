@@ -59,7 +59,7 @@ namespace LibraryManagement.Infrastructure.Repositories
 
         public async Task<CategoryStatistics> GetCategoryStatistic(long categoryId, CancellationToken cancellationToken = default)
         {
-            var bookCount = await _context.Books.CountAsync( x => x.CategoryId == categoryId, cancellationToken );
+            var bookCount = await _context.Books.CountAsync(x => x.CategoryId == categoryId, cancellationToken);
             var activeBookCount = await _context.Books.CountAsync(x => x.CategoryId == categoryId && x.IsAvailable, cancellationToken);
             var subCategoriesCount = await _context.Categories.CountAsync(x => x.ParentCategoryId == categoryId, cancellationToken);
 
@@ -71,7 +71,7 @@ namespace LibraryManagement.Infrastructure.Repositories
             var categories = await _context.Categories
                 .Include(x => x.Books)
                 .AsNoTracking()
-                .OrderBy( x => x.SortOrder)
+                .OrderBy(x => x.SortOrder)
                 .ThenBy(x => x.Name)
                 .ToListAsync(cancellationToken);
 

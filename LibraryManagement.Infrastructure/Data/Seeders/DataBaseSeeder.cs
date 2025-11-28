@@ -8,7 +8,7 @@ namespace LibraryManagement.Infrastructure.Data.Seeders
 {
     public class DataBaseSeeder
     {
-        public static void SeedData( ApplicationDbContext ctx)
+        public static void SeedData(ApplicationDbContext ctx)
         {
             SeedAuthorsAsync(ctx);
         }

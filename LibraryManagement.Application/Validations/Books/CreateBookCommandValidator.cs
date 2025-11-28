@@ -7,7 +7,7 @@ namespace LibraryManagement.Application.Validations.Books
     {
         public CreateBookCommandValidator()
         {
-            RuleFor( c => c.Title)
+            RuleFor(c => c.Title)
                 .NotEmpty()
                 .WithMessage("Title is required.")
                 .MaximumLength(250)

@@ -41,7 +41,7 @@ public class BookServiceTests : BaseIntegrationTest
         var response = await _client.GetBooksAsync(request);
 
         Assert.NotNull(response);
-        Assert.All(response.Books, book => 
+        Assert.All(response.Books, book =>
             Assert.Contains("Test Book 1", book.Title, StringComparison.OrdinalIgnoreCase));
     }
 

@@ -10,7 +10,7 @@ namespace LibraryManagement.Infrastructure.Data.Configuration
         {
             builder.ToTable("categories");
 
-            builder.HasKey( x => x.CategoryId );
+            builder.HasKey(x => x.CategoryId);
 
             builder.Property(x => x.CategoryId).ValueGeneratedOnAdd();
 
@@ -20,11 +20,11 @@ namespace LibraryManagement.Infrastructure.Data.Configuration
             builder.Property(x => x.IsActive).HasDefaultValue(true);
 
             builder.HasOne(x => x.ParentCategory)
-                .WithMany( x => x.SubCategories)
-                .HasForeignKey( x => x.ParentCategoryId)
+                .WithMany(x => x.SubCategories)
+                .HasForeignKey(x => x.ParentCategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex( x => x.Name).IsUnique();
+            builder.HasIndex(x => x.Name).IsUnique();
             builder.HasIndex(x => x.ParentCategoryId);
 
 

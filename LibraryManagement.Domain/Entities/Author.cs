@@ -14,7 +14,7 @@
         private Author() { }
 
         public Author(string firstName,
-            string lastName, 
+            string lastName,
             string? biography = default,
             DateTime? dateOfBirth = default)
         {

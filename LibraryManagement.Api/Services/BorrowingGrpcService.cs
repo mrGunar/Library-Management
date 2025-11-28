@@ -36,7 +36,7 @@ namespace LibraryManagement.Api.Services
             return borrow.ToGrpcResponse();
         }
 
-        public override async Task<BorrowingResponse> ReturnBook(ReturnBookRequest r, ServerCallContext ctx) 
+        public override async Task<BorrowingResponse> ReturnBook(ReturnBookRequest r, ServerCallContext ctx)
         {
             var cmd = new ReturnBookCommand
             {
@@ -49,7 +49,7 @@ namespace LibraryManagement.Api.Services
             return dto.ToGrpcResponse();
         }
 
-        public override async Task<BorrowingListResponse> GetUserBorrowings(UserBorrowingsRequest r, ServerCallContext ctx) 
+        public override async Task<BorrowingListResponse> GetUserBorrowings(UserBorrowingsRequest r, ServerCallContext ctx)
         {
             var status = StatusParser.ParseStatus(r.Status);
             var args = new BorrowingSearchArgs
@@ -59,7 +59,7 @@ namespace LibraryManagement.Api.Services
             };
 
             var result = await _borrowingService.GetUserBorrowingsAsync(args, ctx.CancellationToken);
-            
+
             var response = new BorrowingListResponse
             {
                 TotalCount = result.TotalCount,
@@ -71,7 +71,7 @@ namespace LibraryManagement.Api.Services
             return response;
         }
 
-        public override async Task<BorrowingListResponse> GetOverdueBooks(OverdueBooksRequest r, ServerCallContext ctx) 
+        public override async Task<BorrowingListResponse> GetOverdueBooks(OverdueBooksRequest r, ServerCallContext ctx)
         {
             // TODO: No need full args here or not?
             var args = new BorrowingSearchArgs
@@ -88,7 +88,7 @@ namespace LibraryManagement.Api.Services
                 PageNumber = result.PagedNumber,
                 PageSize = result.PagedSize
             };
-            response.Borrowings.AddRange( result.Items.Select( x => x.ToGrpcResponse() ));
+            response.Borrowings.AddRange(result.Items.Select(x => x.ToGrpcResponse()));
             return response;
         }
 

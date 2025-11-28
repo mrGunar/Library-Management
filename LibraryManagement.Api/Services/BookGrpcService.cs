@@ -52,7 +52,7 @@ namespace LibraryManagement.Api.Services
             return response;
         }
 
-        public override async Task<BookGetResponse> GetBook( BookGetRequest r, ServerCallContext ctx)
+        public override async Task<BookGetResponse> GetBook(BookGetRequest r, ServerCallContext ctx)
         {
             var book = await _bookService.GetBookAsync(r.BookId, ctx.CancellationToken);
 
@@ -89,7 +89,7 @@ namespace LibraryManagement.Api.Services
                 PageCount = r.PageCount > 0 ? r.PageCount : null
             };
 
-            var book = await _bookService.UpdateBookAsync(command,ctx.CancellationToken);
+            var book = await _bookService.UpdateBookAsync(command, ctx.CancellationToken);
             return book.ToGrpcResponse();
         }
 

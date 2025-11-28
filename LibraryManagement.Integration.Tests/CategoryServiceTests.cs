@@ -38,7 +38,7 @@ public class CategoryServiceTests : BaseIntegrationTest
         var response = await _client.GetCategoriesAsync(request);
 
         Assert.NotNull(response);
-        Assert.All(response.Categories, category => 
+        Assert.All(response.Categories, category =>
             Assert.Contains("Fiction", category.Name, StringComparison.OrdinalIgnoreCase));
     }
 
@@ -147,7 +147,7 @@ public class CategoryServiceTests : BaseIntegrationTest
         var response = await _client.GetCategoriesAsync(searchRequest);
 
         Assert.NotNull(response);
-        Assert.All(response.Categories, category => 
+        Assert.All(response.Categories, category =>
             Assert.Equal(parentResponse.CategoryId, category.ParentCategoryId));
     }
 

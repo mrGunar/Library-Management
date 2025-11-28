@@ -41,16 +41,16 @@ namespace LibraryManagement.Api.Services
                 PageSize = result.PagedSize,
             };
 
-            response.Authors.AddRange(result.Items.Select( x => x.ToGrpcResponse()));
+            response.Authors.AddRange(result.Items.Select(x => x.ToGrpcResponse()));
             return response;
 
         }
-        public override async Task<AuthorGetResponse> GetAuthor(AuthorGetRequest request, ServerCallContext context) 
+        public override async Task<AuthorGetResponse> GetAuthor(AuthorGetRequest request, ServerCallContext context)
         {
-            var author = await _authorService.GetAuthorAsync( request.AuthorId, context.CancellationToken );
-            return new AuthorGetResponse { Author = author.ToGrpcResponse()  };
+            var author = await _authorService.GetAuthorAsync(request.AuthorId, context.CancellationToken);
+            return new AuthorGetResponse { Author = author.ToGrpcResponse() };
         }
-        public override async Task<AuthorResponse> CreateAuthor(CreateAuthorRequest request, ServerCallContext context) 
+        public override async Task<AuthorResponse> CreateAuthor(CreateAuthorRequest request, ServerCallContext context)
         {
             var command = new CreateAuthorCommand
             {
@@ -65,7 +65,7 @@ namespace LibraryManagement.Api.Services
 
 
         }
-        public override async Task<AuthorResponse> UpdateAuthor(UpdateAuthorRequest request, ServerCallContext context) 
+        public override async Task<AuthorResponse> UpdateAuthor(UpdateAuthorRequest request, ServerCallContext context)
         {
             var command = new UpdateAuthorCommand
             {

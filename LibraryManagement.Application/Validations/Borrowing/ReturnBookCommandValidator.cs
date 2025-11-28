@@ -5,9 +5,9 @@ namespace LibraryManagement.Application.Validations.Borrowing
 {
     internal class ReturnBookCommandValidator : AbstractValidator<ReturnBookCommand>
     {
-        public ReturnBookCommandValidator() 
+        public ReturnBookCommandValidator()
         {
-            RuleFor( x => x.BorrowingId ).GreaterThan(0).WithMessage("Id is required.");
+            RuleFor(x => x.BorrowingId).GreaterThan(0).WithMessage("Id is required.");
         }
     }
 }

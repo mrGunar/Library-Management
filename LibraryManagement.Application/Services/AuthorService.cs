@@ -24,8 +24,8 @@ namespace LibraryManagement.Application.Services
 
         public AuthorService(
             IAuthorRepository authorRepository,
-            IMapper mapper, 
-            IValidator<CreateAuthorCommand> createValidator, 
+            IMapper mapper,
+            IValidator<CreateAuthorCommand> createValidator,
             IValidator<UpdateAuthorCommand> updateValidator,
             ILogger<AuthorService> logger)
         {
@@ -74,7 +74,7 @@ namespace LibraryManagement.Application.Services
             var author = await _authorRepository.GetByIdAsync(command.AuthorId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Author), command.AuthorId);
 
-            var updatedAuthor  = await _authorRepository.UpdateAsync(command, cancellationToken);
+            var updatedAuthor = await _authorRepository.UpdateAsync(command, cancellationToken);
             return _mapper.Map<AuthorDto>(updatedAuthor);
 
         }

@@ -138,11 +138,11 @@ public class BorrowingServiceTests : BaseIntegrationTest
 
         Assert.NotNull(response);
         Assert.NotEmpty(response.DueDate);
-        
+
         var dueDate = DateTime.Parse(response.DueDate);
         var borrowDate = DateTime.Parse(response.BorrowDate);
         var daysDifference = (dueDate - borrowDate).Days;
-        
+
         Assert.Equal(7, daysDifference);
     }
 
@@ -157,7 +157,7 @@ public class BorrowingServiceTests : BaseIntegrationTest
         };
 
         var borrowResponse = await _client.BorrowBookAsync(borrowRequest);
-        
+
         await Task.Delay(100);
 
         var returnRequest = new ReturnBookRequest

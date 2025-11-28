@@ -9,7 +9,7 @@ namespace LibraryManagement.Application.IRepositories
     {
         Task<Category?> GetByIdAsync(long categoryId, CancellationToken cancellationToken = default);
 
-        Task<IReadOnlyCollection<Category>> GetCategoriesAsync(CategorySearchArgs args,  CancellationToken cancellationToken = default);
+        Task<IReadOnlyCollection<Category>> GetCategoriesAsync(CategorySearchArgs args, CancellationToken cancellationToken = default);
 
         Task<IReadOnlyCollection<Category>> GetCategoryTreeAsync(bool includeInactive, CancellationToken cancellationToken = default);
 

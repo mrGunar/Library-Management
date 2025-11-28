@@ -4,10 +4,8 @@ using LibraryManagement.Application.Queries;
 using LibraryManagement.Domain.Entities;
 using LibraryManagement.Domain.Enum;
 using LibraryManagement.Infrastructure.Data;
-using LibraryManagement.Infrastructure.IRepositories;
 using LibraryManagement.Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LibraryManagement.Infrastructure.Repositories
 {
@@ -35,14 +33,14 @@ namespace LibraryManagement.Infrastructure.Repositories
         {
             return await _context.Borrowings.AsNoTracking()
                 .Where(x => x.BookId == bookId && x.Status == BorrowingStatus.Active)
-                .FirstOrDefaultAsync( cancellationToken );
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<Borrowing?> GetByIdAsync(long borrowingId, CancellationToken cancellationToken = default)
         {
             return await _context.Borrowings.AsNoTracking()
                 .Include(x => x.Book)
-                .FirstOrDefaultAsync( x => x.BorrowingId == borrowingId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.BorrowingId == borrowingId, cancellationToken);
         }
 
         public async Task<PagedResult<Borrowing>> GetOverdueBooksAsync(BorrowingSearchArgs args, CancellationToken cancellationToken = default)
@@ -51,7 +49,7 @@ namespace LibraryManagement.Infrastructure.Repositories
 
             var q = _context.Borrowings.Include(x => x.Book).AsNoTracking()
                 .Where(x => x.Status == BorrowingStatus.Overdue || (x.Status == BorrowingStatus.Active && x.DueDate < now));
-            
+
             var totalCount = await q.CountAsync(cancellationToken);
             var items = await q.Skip((args.PageNumber - 1) * args.PageSize).Take(args.PageSize)
                 .ToListAsync(cancellationToken);
@@ -66,13 +64,14 @@ namespace LibraryManagement.Infrastructure.Repositories
 
             if (args.UserId.HasValue)
             {
-                q = q.Where( x => x.UserId == args.UserId.Value );
+                q = q.Where(x => x.UserId == args.UserId.Value);
             }
 
             if (args.BorrowStatus.HasValue)
             {
-                q = q.Where( x => x.Status == args.BorrowStatus.Value );
-            } else if (args.OverdueOnly)
+                q = q.Where(x => x.Status == args.BorrowStatus.Value);
+            }
+            else if (args.OverdueOnly)
             {
                 q = q.Where(x => x.Status == BorrowingStatus.Overdue);
             }
@@ -91,7 +90,7 @@ namespace LibraryManagement.Infrastructure.Repositories
                 .Where(b => b.BorrowingId == borrowing.BorrowingId).
                 ExecuteUpdateAsync(b => b
                     .SetProperty(b => b.ReturnedDate, borrowing.ReturnedDate)
-                    .SetProperty( b => b.Status, BorrowingStatus.Returned));
+                    .SetProperty(b => b.Status, BorrowingStatus.Returned));
             await _context.SaveChangesAsync(cancellationToken);
         }
 

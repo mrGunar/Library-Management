@@ -85,8 +85,8 @@ namespace LibraryManagement.Infrastructure.IRepositories
 
             var totalCount = await q.CountAsync(cancellationToken);
 
-            var items = await q.Skip( (args.PageNumber - 1) * args.PageSize )
-                                .Take( args.PageSize )
+            var items = await q.Skip((args.PageNumber - 1) * args.PageSize)
+                                .Take(args.PageSize)
                                 .ToListAsync();
             return PagedResult<Book>.Create(items, totalCount, args.PageNumber, args.PageSize);
 
@@ -96,10 +96,10 @@ namespace LibraryManagement.Infrastructure.IRepositories
         {
             await _context.Books
                 .Where(b => b.BookId == book.BookId)
-                .ExecuteUpdateAsync( b => b
-                    .SetProperty( b => b.Title, book.Title)
-                    .SetProperty( b => b.Description, book.Description)
-                    .SetProperty( b => b.PageCount, book.PageCount));
+                .ExecuteUpdateAsync(b => b
+                    .SetProperty(b => b.Title, book.Title)
+                    .SetProperty(b => b.Description, book.Description)
+                    .SetProperty(b => b.PageCount, book.PageCount));
             await _context.SaveChangesAsync(cancellationToken);
 
             return await GetByIdAsync(book.BookId);

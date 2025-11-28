@@ -8,9 +8,9 @@ namespace LibraryManagement.Api.GprcResponses
 {
     public static class GprcMappingResponses
     {
-        public static AuthorResponse ToGrpcResponse( this AuthorDto dto)
+        public static AuthorResponse ToGrpcResponse(this AuthorDto dto)
         {
-            return new AuthorResponse 
+            return new AuthorResponse
             {
                 AuthorId = dto.AuthorId,
                 FirstName = dto.FirstName,

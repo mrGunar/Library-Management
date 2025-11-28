@@ -18,7 +18,7 @@ namespace LibraryManagement.Application
 {
     public static class DependencyInjection
     {
-        public static void AddApplicationLayer (this Container container)
+        public static void AddApplicationLayer(this Container container)
         {
             // REgister Services
             container.Register<IBookService, BookService>(Lifestyle.Scoped);

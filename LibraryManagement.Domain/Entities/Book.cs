@@ -6,10 +6,10 @@
         private Book() { }
 
         public Book(
-            string title, 
+            string title,
             string isbn,
             long authorId,
-            long categoryId, 
+            long categoryId,
             string? description = null,
             DateTime? publishDate = null,
             int? pageCount = null)
@@ -22,7 +22,7 @@
             IsAvailable = true;
             PageCount = pageCount;
             PublishDate = publishDate;
-            
+
         }
 
         public long BookId { get; set; }

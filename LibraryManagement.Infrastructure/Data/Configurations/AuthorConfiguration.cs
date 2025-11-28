@@ -11,9 +11,9 @@ namespace LibraryManagement.Infrastructure.Data.Configurations
             // TODO: other restrictions
             builder.ToTable("authors");
             builder.HasKey(x => x.AuthorId);
-            
+
             builder.Property(x => x.AuthorId).ValueGeneratedOnAdd();
-            
+
             builder.Property(x => x.FirstName).IsRequired();
 
             builder.Property(x => x.LastName).IsRequired();

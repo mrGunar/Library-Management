@@ -5,9 +5,9 @@ namespace LibraryManagement.Application.Validations.Borrowing
 {
     public class BorrowBookCommandValidator : AbstractValidator<BorrowBookCommand>
     {
-        public BorrowBookCommandValidator() 
+        public BorrowBookCommandValidator()
         {
-            RuleFor( x => x.UserId ).NotEmpty();
+            RuleFor(x => x.UserId).NotEmpty();
         }
     }
 }

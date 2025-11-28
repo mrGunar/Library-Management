@@ -11,7 +11,7 @@ namespace LibraryManagement.Domain.Entities
     {
         private Category() { }
 
-        public Category(string name) 
+        public Category(string name)
         {
             Name = name;
             IsActive = true;

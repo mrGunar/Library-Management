@@ -5,7 +5,7 @@ namespace LibraryManagement.Application.Validations.Authors
 {
     public class UpdateAuthorCommandValidator : AbstractValidator<UpdateAuthorCommand>
     {
-        public UpdateAuthorCommandValidator() 
+        public UpdateAuthorCommandValidator()
         {
             RuleFor(x => x.AuthorId).GreaterThan(0).WithMessage("Author must be set.");
         }

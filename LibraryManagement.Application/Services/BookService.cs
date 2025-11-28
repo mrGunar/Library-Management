@@ -51,7 +51,7 @@ namespace LibraryManagement.Application.Services
         {
 
             await _createValidator.ValidateAndThrowAsync(command, cancellationToken);
-            var newBook =  await _bookRepository.AddAsync(command, cancellationToken);
+            var newBook = await _bookRepository.AddAsync(command, cancellationToken);
 
             _logger.LogInformation("The book has been added.");
 

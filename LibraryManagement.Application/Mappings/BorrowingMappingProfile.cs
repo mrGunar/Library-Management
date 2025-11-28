@@ -6,7 +6,7 @@ namespace LibraryManagement.Application.Mappings
 {
     public class BorrowingMappingProfile : Profile
     {
-        public BorrowingMappingProfile() 
+        public BorrowingMappingProfile()
         {
             CreateMap<Borrowing, BorrowingDto>()
                 .ForMember(dest => dest.BookTitle, opt => opt.MapFrom(src => src.Book != null ? src.Book.Title : "Unknow"));

@@ -43,7 +43,7 @@ public class AuthorServiceTests : BaseIntegrationTest
         var response = await _client.GetAuthorsAsync(request);
 
         Assert.NotNull(response);
-        Assert.All(response.Authors, author => 
+        Assert.All(response.Authors, author =>
             Assert.Contains("John", author.FirstName + " " + author.LastName, StringComparison.OrdinalIgnoreCase));
     }
 

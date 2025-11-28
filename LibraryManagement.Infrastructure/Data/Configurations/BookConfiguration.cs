@@ -9,12 +9,12 @@ namespace LibraryManagement.Infrastructure.Data.Configuration
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.ToTable("books");
-            
+
             builder.HasKey(x => x.BookId);
 
             builder.Property(x => x.BookId).ValueGeneratedOnAdd();
-            
-            builder.Property( x => x.Title).IsRequired();
+
+            builder.Property(x => x.Title).IsRequired();
 
             builder.Property(x => x.Title).IsRequired();
 
@@ -26,19 +26,19 @@ namespace LibraryManagement.Infrastructure.Data.Configuration
 
             builder.Property(x => x.IsAvailable).HasDefaultValue(true);
 
-            builder.HasOne( x => x.Author)
-                .WithMany( a => a.Books)
-                .HasForeignKey( x => x.AuthorId )
-                .OnDelete(DeleteBehavior.Restrict );
+            builder.HasOne(x => x.Author)
+                .WithMany(a => a.Books)
+                .HasForeignKey(x => x.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne ( x => x.Category)
-                .WithMany( a => a.Books)
-                .HasForeignKey( x => x.CategoryId )
-                .OnDelete( DeleteBehavior.Restrict );
+            builder.HasOne(x => x.Category)
+                .WithMany(a => a.Books)
+                .HasForeignKey(x => x.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.HasIndex(e => e.ISBN).IsUnique();
-            
+
             builder.HasIndex(x => x.AuthorId);
             builder.HasIndex(x => x.AuthorId);
             builder.HasIndex(x => x.CategoryId);

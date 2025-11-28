@@ -12,9 +12,9 @@ namespace LibraryManagement.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public AuthorRepository(ApplicationDbContext context) 
+        public AuthorRepository(ApplicationDbContext context)
         {
-            _context = context; 
+            _context = context;
         }
         public async Task<Author> AddAsync(CreateAuthorCommand author, CancellationToken cancellationToken = default)
         {
@@ -30,7 +30,7 @@ namespace LibraryManagement.Infrastructure.Repositories
 
         public async Task<int> GetBookCountAsync(long authorId, CancellationToken cancellationToken = default)
         {
-            return await _context.Books.CountAsync( x => x.AuthorId == authorId, cancellationToken );
+            return await _context.Books.CountAsync(x => x.AuthorId == authorId, cancellationToken);
         }
 
         public async Task<Author?> GetByIdAsync(long authorId, CancellationToken cancellationToken = default)
@@ -56,15 +56,15 @@ namespace LibraryManagement.Infrastructure.Repositories
 
             if (args.IsActive.HasValue)
             {
-                q = q.Where( x => x.IsActive == args.IsActive.Value );
+                q = q.Where(x => x.IsActive == args.IsActive.Value);
             }
 
             var totalCount = await q.CountAsync(cancellationToken);
 
             var items = await q
                 .OrderBy(x => x.LastName)
-                .ThenBy( x => x.FirstName)
-                .Skip( (args.PageNumber - 1) * args.PageSize)
+                .ThenBy(x => x.FirstName)
+                .Skip((args.PageNumber - 1) * args.PageSize)
                 .Take(args.PageSize).ToListAsync();
 
             return PagedResult<Author>.Create(items, totalCount, args.PageNumber, args.PageSize);
@@ -77,9 +77,9 @@ namespace LibraryManagement.Infrastructure.Repositories
                 .Where(a => a.AuthorId == author.AuthorId)
                 .ExecuteUpdateAsync(a => a
                 .SetProperty(a => a.AuthorId, author.AuthorId)
-                .SetProperty( a => a.FirstName, author.FirstName)
-                .SetProperty( a => a.LastName, author.LastName)
-                .SetProperty( a => a.Biography, author.Biography));
+                .SetProperty(a => a.FirstName, author.FirstName)
+                .SetProperty(a => a.LastName, author.LastName)
+                .SetProperty(a => a.Biography, author.Biography));
 
             await _context.SaveChangesAsync(cancellationToken);
 

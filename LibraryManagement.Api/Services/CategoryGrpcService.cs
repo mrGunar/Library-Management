@@ -20,7 +20,7 @@ namespace LibraryManagement.Api.Services
             _logger = logger;
         }
 
-        public override async Task<CategoryListResponse> GetCategories(CategorySearchRequest r , ServerCallContext ctx)
+        public override async Task<CategoryListResponse> GetCategories(CategorySearchRequest r, ServerCallContext ctx)
         {
             var args = new CategorySearchArgs
             {
@@ -31,7 +31,7 @@ namespace LibraryManagement.Api.Services
 
             var categories = await _categoryService.GetCategoriesAsync(args, ctx.CancellationToken);
             var response = new CategoryListResponse();
-            response.Categories.AddRange( categories.Select( x => x.ToGrpcResponse() ) );
+            response.Categories.AddRange(categories.Select(x => x.ToGrpcResponse()));
             return response;
         }
         public override async Task<CategoryTreeResponse> GetCategoryTree(CategoryTreeRequest r, ServerCallContext ctx)
@@ -39,11 +39,11 @@ namespace LibraryManagement.Api.Services
             // TODO: inactive
             var categories = await _categoryService.GetCategoryTreeAsync(r.IncludeInactive, ctx.CancellationToken);
             var response = new CategoryTreeResponse();
-            response.Categories.AddRange(categories.Select( x => x.ToGrpcResponse() ) ) ;
+            response.Categories.AddRange(categories.Select(x => x.ToGrpcResponse()));
             return response;
         }
-        
-        public override async Task<CategoryResponse> CreateCategory(CreateCategoryRequest r , ServerCallContext ctx)
+
+        public override async Task<CategoryResponse> CreateCategory(CreateCategoryRequest r, ServerCallContext ctx)
         {
             var cmd = new CreateCategoryCommand
             {

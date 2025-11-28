@@ -13,8 +13,8 @@ using SimpleInjector.Lifestyles;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddGrpc(options => 
-{ 
+builder.Services.AddGrpc(options =>
+{
     options.EnableDetailedErrors = true;
     options.MaxReceiveMessageSize = 1024;
     options.MaxSendMessageSize = 1024;

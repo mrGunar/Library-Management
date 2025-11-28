@@ -14,7 +14,7 @@ namespace LibraryManagement.Application.IServices
         /// </summary>
         /// <param name="command"></param>
         Task<BorrowingDto> BorrowBookAsync(BorrowBookCommand command, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// Return book (update status, calculate fines if applicable)
         /// </summary>
@@ -26,7 +26,7 @@ namespace LibraryManagement.Application.IServices
         /// </summary>
         /// <param name="userId"></param>
         Task<PagedResult<BorrowingDto>> GetUserBorrowingsAsync(BorrowingSearchArgs args, CancellationToken cancellationToken);
-        
+
         /// <summary>
         /// Get all overdue books
         /// </summary>
@@ -38,6 +38,6 @@ namespace LibraryManagement.Application.IServices
         /// </summary>
         /// <param name="borrowingId"></param>
         /// <returns></returns>
-        Task<decimal> CalculateFineAsync(long borrowingId, CancellationToken cancellationToken); 
+        Task<decimal> CalculateFineAsync(long borrowingId, CancellationToken cancellationToken);
     }
 }
