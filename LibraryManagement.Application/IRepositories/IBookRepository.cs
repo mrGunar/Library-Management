@@ -14,6 +14,7 @@ namespace LibraryManagement.Application.IRepositories
         Task DeleteAsync(Book book, CancellationToken cancellationToken= default);
         Task<PagedResult<Book>> SearchAsync(BookSearchArgs args, CancellationToken cancellationToken = default);
         Task<int> CountAsync(Expression<Func<Book, bool>> predicates, CancellationToken cancellationToken = default);
-
+        Task MarkAsInactiveAsync(long bookId, CancellationToken cancellationToken = default);
+        Task UnmarkAsInactiveAsync(long bookId, CancellationToken cancellationToken = default);
     }
 }

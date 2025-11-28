@@ -42,15 +42,11 @@ namespace LibraryManagement.Infrastructure.Repositories
                 .AsNoTracking()
                 .AsQueryable();
 
+            // TODO: Double-check the correctness of this
             if (!string.IsNullOrWhiteSpace(args.SearchString))
             {
                 var term = args.SearchString.ToLower();
                 q = q.Where(x => EF.Functions.Like(x.Name, $"{term}"));
-            }
-
-            if (args.ParentCategoryId.HasValue)
-            {
-                q = q.Where(x => x.ParentCategoryId == args.ParentCategoryId.Value);
             }
 
             if (args.IsActive.HasValue)

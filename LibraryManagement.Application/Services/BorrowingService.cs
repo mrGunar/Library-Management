@@ -23,6 +23,11 @@ namespace LibraryManagement.Application.Services
         private readonly IMapper _mapper;
         private readonly ILogger<BorrowingService> _logger;
 
+        /// <summary>
+        /// Fine for the one day after deadline
+        /// </summary>
+        private const decimal DailyFineAmount = 42;
+
         public BorrowingService(
             IBorrowingRepository borrowingRepository,
             IBookRepository bookRepository, 
@@ -46,8 +51,19 @@ namespace LibraryManagement.Application.Services
 
         private decimal CalculateFine(Borrowing borrowing)
         {
-            // TODO: Something brilliant
-            return 0;
+            var baseline = borrowing.ReturnedDate ?? DateTime.UtcNow;
+            if (baseline <= borrowing.DueDate)
+            {
+                return 0m;
+            }
+
+            var overdueDays = (baseline.Date - borrowing.DueDate.Date).Days;
+            if (overdueDays <= 0)
+            {
+                return 0m;
+            }
+
+            return overdueDays * DailyFineAmount;
         }
 
         public async Task<BorrowingDto> BorrowBookAsync(BorrowBookCommand command, CancellationToken cancellationToken = default)
@@ -59,26 +75,15 @@ namespace LibraryManagement.Application.Services
 
             if (!book.IsAvailable)
             {
-                // TODO: Create a new exception for this case in the shared module
                 throw new Exception("The book is not available for borrowing.");
             }
 
-            // TODO: A new exception
-            var bor = await _borrowingRepository.GetActiveBorrwoingForBookAsync(command.BookId, cancellationToken)
-                ?? throw new Exception("The book already has an active borrowing.");
+            var newBorrowing = await _borrowingRepository.AddAsync(command, cancellationToken);
 
-            var borrowDate = DateTime.UtcNow;
-            var dueDate = borrowDate.AddDays(command.BorrowDays <= 0 ? 14 : command.BorrowDays);
-
-            var borrowing = new Borrowing(command.BookId, command.UserId, borrowDate, dueDate);
-
-            // TODO: Marked book as borrowed
-            await _borrowingRepository.AddAsync(borrowing, cancellationToken);
-            // TODO: Update timestamp in the book
-            //await _bookRepository.UpdateAsync(book, cancellationToken);
+            await _bookRepository.MarkAsInactiveAsync(command.BookId, cancellationToken);
 
             _logger.LogInformation("The book has been borrowed.");
-            return _mapper.Map<BorrowingDto>(borrowing);
+            return _mapper.Map<BorrowingDto>(newBorrowing);
         }
 
         public async Task<decimal> CalculateFineAsync(long borrowingId, CancellationToken cancellationToken = default)
@@ -132,6 +137,7 @@ namespace LibraryManagement.Application.Services
         public async Task<BorrowingDto> ReturnBookAsync(ReturnBookCommand command, CancellationToken cancellationToken = default)
         {
             await _returnValidator.ValidateAndThrowAsync(command, cancellationToken);
+
             var borrowing = await _borrowingRepository.GetByIdAsync(command.BorrowingId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Borrowing), command.BorrowingId);
 
@@ -140,17 +146,16 @@ namespace LibraryManagement.Application.Services
                 return _mapper.Map<BorrowingDto>(borrowing);
             }
 
-            // TODO: Mark as returned
 
             var book = await _bookRepository.GetByIdAsync(borrowing.BookId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Book), borrowing.BookId);
 
-            await _borrowingRepository.UpdateAsync(borrowing, cancellationToken);
-            // TODO: Update timestamp in the book
-            //await _bookRepository.UpdateAsync(book, cancellationToken);
 
-            // TODO: calculate fine
-            var fine = 0;
+            await _borrowingRepository.UpdateAsync(command, cancellationToken);
+
+            await _bookRepository.UnmarkAsInactiveAsync(book.BookId, cancellationToken);
+
+            var fine = await CalculateFineAsync(borrowing.BorrowingId, cancellationToken);
             return _mapper.Map<BorrowingDto>(borrowing) with { FineAmount = fine };
 
         }

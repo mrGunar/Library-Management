@@ -1,11 +1,13 @@
-﻿using LibraryManagement.Application.IRepositories;
+﻿using LibraryManagement.Application.Commands.Borrowing;
+using LibraryManagement.Application.IRepositories;
 using LibraryManagement.Application.Queries;
 using LibraryManagement.Domain.Entities;
 using LibraryManagement.Domain.Enum;
 using LibraryManagement.Infrastructure.Data;
+using LibraryManagement.Infrastructure.IRepositories;
 using LibraryManagement.Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LibraryManagement.Infrastructure.Repositories
 {
@@ -18,10 +20,15 @@ namespace LibraryManagement.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(Borrowing borrowing, CancellationToken cancellationToken = default)
+        public async Task<Borrowing> AddAsync(BorrowBookCommand command, CancellationToken cancellationToken = default)
         {
-            await _context.Borrowings.AddAsync(borrowing, cancellationToken);
+            var borrowDate = DateTime.UtcNow;
+            var dueDate = borrowDate.AddDays(command.BorrowDays);
+
+            var newBorrowing = new Borrowing(command.BookId, command.UserId, borrowDate, dueDate);
+            await _context.Borrowings.AddAsync(newBorrowing, cancellationToken);
             await _context.SaveChangesAsync();
+            return newBorrowing;
         }
 
         public async Task<Borrowing?> GetActiveBorrwoingForBookAsync(long bookId, CancellationToken cancellationToken = default)
@@ -78,10 +85,15 @@ namespace LibraryManagement.Infrastructure.Repositories
 
         }
 
-        public async Task UpdateAsync(Borrowing borrowing, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(ReturnBookCommand borrowing, CancellationToken cancellationToken = default)
         {
-            _context.Borrowings.Update(borrowing);
+            await _context.Borrowings
+                .Where(b => b.BorrowingId == borrowing.BorrowingId).
+                ExecuteUpdateAsync(b => b
+                    .SetProperty(b => b.ReturnedDate, borrowing.ReturnedDate)
+                    .SetProperty( b => b.Status, BorrowingStatus.Returned));
             await _context.SaveChangesAsync(cancellationToken);
         }
+
     }
 }

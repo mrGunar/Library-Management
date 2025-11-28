@@ -104,5 +104,27 @@ namespace LibraryManagement.Infrastructure.IRepositories
 
             return await GetByIdAsync(book.BookId);
         }
+
+        public async Task MarkAsInactiveAsync(long bookId, CancellationToken cancellationToken = default)
+        {
+
+            await _context.Books
+                .Where(b => b.BookId == bookId)
+                .ExecuteUpdateAsync(b => b
+                    .SetProperty(b => b.UpdatedDate, DateTime.UtcNow)
+                    .SetProperty(b => b.IsAvailable, false));
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UnmarkAsInactiveAsync(long bookId, CancellationToken cancellationToken = default)
+        {
+
+            await _context.Books
+                .Where(b => b.BookId == bookId)
+                .ExecuteUpdateAsync(b => b
+                    .SetProperty(b => b.UpdatedDate, DateTime.UtcNow)
+                    .SetProperty(b => b.IsAvailable, true));
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }

@@ -37,7 +37,6 @@ namespace LibraryManagement.Application.Services
         {
             await _createValidator.ValidateAndThrowAsync(command, cancellationToken);
 
-            // TODO: Add some checks
 
             var category = new Category(command.Name);
             // TODO: Update the category
