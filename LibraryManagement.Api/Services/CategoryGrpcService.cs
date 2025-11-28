@@ -36,7 +36,6 @@ namespace LibraryManagement.Api.Services
         }
         public override async Task<CategoryTreeResponse> GetCategoryTree(CategoryTreeRequest r, ServerCallContext ctx)
         {
-            // TODO: inactive
             var categories = await _categoryService.GetCategoryTreeAsync(r.IncludeInactive, ctx.CancellationToken);
             var response = new CategoryTreeResponse();
             response.Categories.AddRange(categories.Select(x => x.ToGrpcResponse()));

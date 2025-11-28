@@ -17,13 +17,10 @@ namespace LibraryManagement.Application.Validations.Books
                 .Must(BeValidIsbn).WithMessage("Invalid ISBN format.");
 
             RuleFor(c => c.AUthorId).GreaterThan(0).WithMessage("Author must be specified.");
-
-            /* TODO: another Rules if needed */
         }
 
         private bool BeValidIsbn(string isbn)
         {
-            /* Validation of ISBN here */
             return true;
         }
     }

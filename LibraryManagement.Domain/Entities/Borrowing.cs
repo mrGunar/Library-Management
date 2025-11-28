@@ -8,8 +8,6 @@ namespace LibraryManagement.Domain.Entities
 
         public Borrowing(long bookId, long userId, DateTime borrowDate, DateTime dueDate)
         {
-            // TODO: Check borrowDate >= dueDate
-
             BookId = bookId;
             UserId = userId;
             BorrowDate = borrowDate;

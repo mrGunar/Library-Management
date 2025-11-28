@@ -1,5 +1,4 @@
-﻿using LibraryManagement.Application.DTOs;
-using LibraryManagement.Application.Models;
+﻿using LibraryManagement.Application.Models;
 using LibraryManagement.Application.Queries;
 using LibraryManagement.Domain.Entities;
 

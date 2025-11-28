@@ -1,6 +1,4 @@
-﻿using LibraryManagement.Application.Commands.Categories;
-using LibraryManagement.Application.DTOs;
-using LibraryManagement.Application.IRepositories;
+﻿using LibraryManagement.Application.IRepositories;
 using LibraryManagement.Application.Models;
 using LibraryManagement.Application.Queries;
 using LibraryManagement.Domain.Entities;

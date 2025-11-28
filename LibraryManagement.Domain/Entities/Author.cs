@@ -2,7 +2,7 @@
 {
     public class Author
     {
-        private readonly List<Book> _books = new(); // ???
+        private readonly List<Book> _books = new();
         public long AuthorId { get; set; }
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = string.Empty;

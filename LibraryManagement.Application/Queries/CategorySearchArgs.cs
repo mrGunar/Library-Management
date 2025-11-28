@@ -6,7 +6,6 @@ namespace LibraryManagement.Application.Queries
     {
         public string? SearchString { get; init; }
         public long? ParentCategoryId { get; init; }
-
         public bool? IsActive { get; init; }
 
     }

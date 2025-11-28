@@ -41,7 +41,6 @@ namespace LibraryManagement.Api.Services
             var cmd = new ReturnBookCommand
             {
                 BorrowingId = r.BorrowingId,
-                // TODO: Something brilliant
                 ReturnedDate = DateTime.UtcNow,
             };
 
@@ -73,7 +72,6 @@ namespace LibraryManagement.Api.Services
 
         public override async Task<BorrowingListResponse> GetOverdueBooks(OverdueBooksRequest r, ServerCallContext ctx)
         {
-            // TODO: No need full args here or not?
             var args = new BorrowingSearchArgs
             {
                 PageNumber = 1,
@@ -91,7 +89,6 @@ namespace LibraryManagement.Api.Services
             response.Borrowings.AddRange(result.Items.Select(x => x.ToGrpcResponse()));
             return response;
         }
-
 
     }
 }

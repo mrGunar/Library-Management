@@ -6,7 +6,6 @@ using LibraryManagement.Infrastructure.Data;
 using LibraryManagement.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LibraryManagement.Infrastructure.IRepositories
 {

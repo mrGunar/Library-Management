@@ -31,17 +31,12 @@
         public string? Description { get; set; } = string.Empty;
         public long AuthorId { get; set; }
         public Author? Author { get; set; }
-
         public long CategoryId { get; set; }
         public Category? Category { get; set; }
-
         public DateTime? PublishDate { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedDate { get; set; }
         public int? PageCount { get; set; }
         public bool IsAvailable { get; set; }
-
-        // Update the timestamp of the UpdatedDate field ()
-
     }
 }

@@ -33,7 +33,7 @@ namespace LibraryManagement.Api.Services
             };
 
             var result = await _authorService.GetAuthorsAsync(args, context.CancellationToken);
-            // TOOD: Take values from the `result`
+
             var response = new AuthorListResponse
             {
                 TotalCount = result.TotalCount,

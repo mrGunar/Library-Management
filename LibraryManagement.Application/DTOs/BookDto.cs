@@ -13,7 +13,6 @@ namespace LibraryManagement.Application.DTOs
         public string AuthorName { get; init; } = string.Empty;
         public long CategoryId { get; init; }
         public Category? Category { get; init; }
-
         public string CategoryName { get; init; } = string.Empty;
         public DateTime PublishDate { get; init; }
         public DateTime CreatedDate { get; init; }

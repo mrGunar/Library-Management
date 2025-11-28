@@ -26,7 +26,6 @@ namespace LibraryManagement.Api.Services
         {
             // TODO: Add try-catch
             // TODO: Add logs
-            // TODO: Add Paged Result
 
             var args = new BookSearchArgs
             {
@@ -98,7 +97,6 @@ namespace LibraryManagement.Api.Services
             await _bookService.DeleteBookAsync(r.BookId, ctx.CancellationToken);
             return new DeleteResponse { Success = true, Message = "The book has been deleted." };
         }
-
 
     }
 }

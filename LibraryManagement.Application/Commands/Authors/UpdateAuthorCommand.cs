@@ -7,7 +7,6 @@
         public string LastName { get; init; } = string.Empty;
         public string? Biography { get; init; } = string.Empty;
         public DateTime? DateOfBirth { get; init; }
-
         public bool IsActive { get; init; }
     }
 }
