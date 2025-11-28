@@ -74,7 +74,8 @@ namespace LibraryManagement.Application.Services
 
             // TODO: Marked book as borrowed
             await _borrowingRepository.AddAsync(borrowing, cancellationToken);
-            await _bookRepository.UpdateAsync(book, cancellationToken);
+            // TODO: Update timestamp in the book
+            //await _bookRepository.UpdateAsync(book, cancellationToken);
 
             _logger.LogInformation("The book has been borrowed.");
             return _mapper.Map<BorrowingDto>(borrowing);
@@ -145,7 +146,8 @@ namespace LibraryManagement.Application.Services
                 ?? throw new NotFoundException(nameof(Book), borrowing.BookId);
 
             await _borrowingRepository.UpdateAsync(borrowing, cancellationToken);
-            await _bookRepository.UpdateAsync(book, cancellationToken);
+            // TODO: Update timestamp in the book
+            //await _bookRepository.UpdateAsync(book, cancellationToken);
 
             // TODO: calculate fine
             var fine = 0;

@@ -49,7 +49,7 @@ namespace LibraryManagement.Api.Services
 
             response.Books.AddRange(result.Items.Select(x => x.ToGrpcResponse()));
 
-            return _mapper.Map<BookListResponse>(result);
+            return response;
         }
 
         public override async Task<BookGetResponse> GetBook( BookGetRequest r, ServerCallContext ctx)

@@ -51,22 +51,11 @@ namespace LibraryManagement.Application.Services
         {
 
             await _createValidator.ValidateAndThrowAsync(command, cancellationToken);
-            // TODO: another options
-
-            var book = new Book(
-                    command.Title,
-                    command.ISBN,
-                    command.AUthorId,
-                    command.CategoryId,
-                    command.Description,
-                    command.PublishedDate,
-                    command.PageCount);
-
-            await _bookRepository.AddAsync(book, cancellationToken);
+            var newBook =  await _bookRepository.AddAsync(command, cancellationToken);
 
             _logger.LogInformation("The book has been added.");
 
-            return _mapper.Map<BookDto>(book);
+            return _mapper.Map<BookDto>(newBook);
         }
 
         public async Task DeleteBookAsync(long bookId, CancellationToken cancellationToken = default)
@@ -100,16 +89,8 @@ namespace LibraryManagement.Application.Services
             var book = await _bookRepository.GetByIdAsync(command.BookId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Book), command.BookId);
 
-            // TODO: double-check updating
-            book.Title = command.Title ?? book.Title;
-            book.Description = command.Description ?? book.Description;
-            book.CategoryId = command.CategoryId;
-            book.PublishDate = command.PublishedDate is not null ? Convert.ToDateTime(command.PublishedDate) : book.PublishDate;
-            book.PageCount = command.PageCount ?? book.PageCount;
-            // TODO: Update the UpdatedDate field
-
-            await _bookRepository.UpdateAsync(book, cancellationToken);
-            return _mapper.Map<BookDto>(book);
+            var updatedBook = await _bookRepository.UpdateAsync(command, cancellationToken);
+            return _mapper.Map<BookDto>(updatedBook);
         }
     }
 }

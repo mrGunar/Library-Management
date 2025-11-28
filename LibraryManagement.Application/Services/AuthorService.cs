@@ -40,14 +40,10 @@ namespace LibraryManagement.Application.Services
         {
             await _createValidator.ValidateAndThrowAsync(command, cancellationToken);
 
-            var author = new Author(command.FirstName, command.LastName);
-            
-            // TODO: Update the profile
-
-            await _authorRepository.AddAsync(author, cancellationToken);
+            var newAuthor = await _authorRepository.AddAsync(command, cancellationToken);
             _logger.LogInformation("Author has been created.");
 
-            return _mapper.Map<AuthorDto>(author);
+            return _mapper.Map<AuthorDto>(newAuthor);
         }
 
         public async Task<AuthorDto> GetAuthorAsync(long authorId, CancellationToken cancellationToken = default)
@@ -75,18 +71,13 @@ namespace LibraryManagement.Application.Services
         {
             await _updateValidator.ValidateAndThrowAsync(command, cancellationToken);
 
-
             var author = await _authorRepository.GetByIdAsync(command.AuthorId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Author), command.AuthorId);
 
-            // TODO: Update the profile
-            author.FirstName = command.FirstName;
-            author.LastName = command.LastName;
-            author.Biography = command.Biography;
-
-            await _authorRepository.UpdateAsync(author, cancellationToken);
-            return _mapper.Map<AuthorDto>(author);
+            var updatedAuthor  = await _authorRepository.UpdateAsync(command, cancellationToken);
+            return _mapper.Map<AuthorDto>(updatedAuthor);
 
         }
+
     }
 }

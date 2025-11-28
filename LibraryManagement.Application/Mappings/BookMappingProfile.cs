@@ -9,8 +9,8 @@ namespace LibraryManagement.Application.Mappings
         public BookMappingProfile() 
         {
             CreateMap<Book, BookDto>()
-                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src =>  src.Author.FirstName))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author != null ? $"{src.Author.FirstName}" : "Unknown" ))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? $"{src.Category.Name}" : "Unknown"))
                 .ForMember(dest => dest.BookId, opt => opt.MapFrom(src => src.BookId));
         }
     }

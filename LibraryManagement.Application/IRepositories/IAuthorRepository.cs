@@ -1,4 +1,5 @@
-﻿using LibraryManagement.Application.Queries;
+﻿using LibraryManagement.Application.Commands.Authors;
+using LibraryManagement.Application.Queries;
 using LibraryManagement.Domain.Entities;
 using LibraryManagement.Shared.Models;
 
@@ -10,9 +11,9 @@ namespace LibraryManagement.Application.IRepositories
 
         Task<PagedResult<Author>> SearchAsync(AuthorSearchArgs args, CancellationToken cancellationToken = default);
 
-        Task AddAsync(Author author, CancellationToken cancellationToken = default);
+        Task<Author> AddAsync(CreateAuthorCommand author, CancellationToken cancellationToken = default);
         
-        Task UpdateAsync(Author author, CancellationToken cancellationToken = default);
+        Task<Author?> UpdateAsync(UpdateAuthorCommand author, CancellationToken cancellationToken = default);
 
         Task<int> GetBookCountAsync(long authorId, CancellationToken cancellationToken= default);
     }

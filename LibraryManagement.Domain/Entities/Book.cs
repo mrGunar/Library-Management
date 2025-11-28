@@ -26,14 +26,14 @@
         }
 
         public long BookId { get; set; }
-        public string? Title { get; set; } // req
-        public string? ISBN { get; set; } // uniq
-        public string? Description { get; set; } = string.Empty;// null
+        public string? Title { get; set; }
+        public string? ISBN { get; set; }
+        public string? Description { get; set; } = string.Empty;
         public long AuthorId { get; set; }
-        public Author? Author { get; set; } // navigation
+        public Author? Author { get; set; }
 
         public long CategoryId { get; set; }
-        public Category? Category { get; set; } // nav
+        public Category? Category { get; set; }
 
         public DateTime? PublishDate { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

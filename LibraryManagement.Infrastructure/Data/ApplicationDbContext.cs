@@ -25,7 +25,7 @@ namespace LibraryManagement.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=kek1.db");
+            optionsBuilder.UseSqlite("Data Source=kek.db");
         }
     }
 }

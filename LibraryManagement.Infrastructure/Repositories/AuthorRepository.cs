@@ -1,4 +1,5 @@
-﻿using LibraryManagement.Application.IRepositories;
+﻿using LibraryManagement.Application.Commands.Authors;
+using LibraryManagement.Application.IRepositories;
 using LibraryManagement.Application.Queries;
 using LibraryManagement.Domain.Entities;
 using LibraryManagement.Infrastructure.Data;
@@ -15,10 +16,16 @@ namespace LibraryManagement.Infrastructure.Repositories
         {
             _context = context; 
         }
-        public async Task AddAsync(Author author, CancellationToken cancellationToken = default)
+        public async Task<Author> AddAsync(CreateAuthorCommand author, CancellationToken cancellationToken = default)
         {
-            await _context.Authors.AddAsync(author, cancellationToken);
+            var newAuthor = new Author(
+                author.FirstName,
+                author.LastName,
+                author.Biography
+                );
+            await _context.Authors.AddAsync(newAuthor, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+            return newAuthor;
         }
 
         public async Task<int> GetBookCountAsync(long authorId, CancellationToken cancellationToken = default)
@@ -44,7 +51,6 @@ namespace LibraryManagement.Infrastructure.Repositories
             if (!string.IsNullOrWhiteSpace(args.SearchString))
             {
                 var term = args.SearchString.ToLower();
-                // TODO: create patterns
                 q = q.Where(x => EF.Functions.Like(x.FirstName, $"{term}") || EF.Functions.Like(x.LastName, $"{term}"));
             }
 
@@ -64,11 +70,20 @@ namespace LibraryManagement.Infrastructure.Repositories
             return PagedResult<Author>.Create(items, totalCount, args.PageNumber, args.PageSize);
         }
 
-        public async Task UpdateAsync(Author author, CancellationToken cancellationToken = default)
+        public async Task<Author?> UpdateAsync(UpdateAuthorCommand author, CancellationToken cancellationToken = default)
         {
 
-            _context.Authors.Update(author);
-            await _context.SaveChangesAsync();
+            await _context.Authors
+                .Where(a => a.AuthorId == author.AuthorId)
+                .ExecuteUpdateAsync(a => a
+                .SetProperty(a => a.AuthorId, author.AuthorId)
+                .SetProperty( a => a.FirstName, author.FirstName)
+                .SetProperty( a => a.LastName, author.LastName)
+                .SetProperty( a => a.Biography, author.Biography));
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return await GetByIdAsync(author.AuthorId);
         }
     }
 }

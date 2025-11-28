@@ -1,10 +1,12 @@
-﻿using System.Linq.Expressions;
+﻿using LibraryManagement.Application.Commands.Books;
 using LibraryManagement.Application.IRepositories;
 using LibraryManagement.Application.Queries;
 using LibraryManagement.Domain.Entities;
 using LibraryManagement.Infrastructure.Data;
 using LibraryManagement.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace LibraryManagement.Infrastructure.IRepositories
 {
@@ -17,10 +19,20 @@ namespace LibraryManagement.Infrastructure.IRepositories
             _context = context;
         }
 
-        public async Task AddAsync(Book book, CancellationToken cancellationToken = default)
+        public async Task<Book> AddAsync(CreateBookCommand book, CancellationToken cancellationToken = default)
         {
-            await _context.Books.AddAsync(book, cancellationToken);
+            var newBook = new Book(
+                 book.Title,
+                 book.ISBN,
+                 book.AUthorId,
+                 book.CategoryId,
+                 book.Description,
+                 book.PublishedDate,
+                 book.PageCount);
+
+            await _context.Books.AddAsync(newBook, cancellationToken);
             await _context.SaveChangesAsync();
+            return newBook;
         }
 
         public async Task<int> CountAsync(Expression<Func<Book, bool>> predicates, CancellationToken cancellationToken = default)
@@ -54,8 +66,7 @@ namespace LibraryManagement.Infrastructure.IRepositories
             if (!string.IsNullOrWhiteSpace(args.SearchString))
             {
                 var term = args.SearchString.ToLower();
-                // TODO: create patterns
-                q = q.Where(x => EF.Functions.Like(x.Title, $""));
+                q = q.Where(x => EF.Functions.Like(x.Title, $"{term}"));
             }
 
             if (args.AuthorId.HasValue)
@@ -72,19 +83,26 @@ namespace LibraryManagement.Infrastructure.IRepositories
                 q = q.Where(x => x.IsAvailable == args.IsAvailable.Value);
             }
 
-            // TODO: sorting
-
             var totalCount = await q.CountAsync(cancellationToken);
 
-            var items = await q.Skip( (args.PageNumber - 1) * args.PageSize ).Take( args.PageSize ).ToListAsync();
+            var items = await q.Skip( (args.PageNumber - 1) * args.PageSize )
+                                .Take( args.PageSize )
+                                .ToListAsync();
             return PagedResult<Book>.Create(items, totalCount, args.PageNumber, args.PageSize);
 
         }
 
-        public async Task UpdateAsync(Book book, CancellationToken cancellationToken = default)
+        public async Task<Book?> UpdateAsync(UpdateBookCommand book, CancellationToken cancellationToken = default)
         {
-            _context.Books.Update(book);
+            await _context.Books
+                .Where(b => b.BookId == book.BookId)
+                .ExecuteUpdateAsync( b => b
+                    .SetProperty( b => b.Title, book.Title)
+                    .SetProperty( b => b.Description, book.Description)
+                    .SetProperty( b => b.PageCount, book.PageCount));
             await _context.SaveChangesAsync(cancellationToken);
+
+            return await GetByIdAsync(book.BookId);
         }
     }
 }
